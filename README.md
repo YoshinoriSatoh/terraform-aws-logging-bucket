@@ -6,7 +6,6 @@
 * ELB
 * Cloudfront
 * S3バケット
-* SessionManager
 
 ## Requirements
 
@@ -32,13 +31,10 @@ No modules.
 | [aws_s3_bucket.cloudfront](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.elb](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.s3](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket) | resource |
-| [aws_s3_bucket.session_manager](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.elb](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_policy) | resource |
-| [aws_s3_bucket_policy.s3](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.cloudfront](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.elb](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.s3](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_public_access_block) | resource |
-| [aws_s3_bucket_public_access_block.session_manager](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/data-sources/caller_identity) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/3.74.0/docs/data-sources/region) | data source |
 
@@ -55,5 +51,4 @@ No modules.
 | <a name="output_bucket_cloudfront"></a> [bucket\_cloudfront](#output\_bucket\_cloudfront) | Cloudfront access log bucket |
 | <a name="output_bucket_elb"></a> [bucket\_elb](#output\_bucket\_elb) | ALB/NLB access log bucket |
 | <a name="output_bucket_s3"></a> [bucket\_s3](#output\_bucket\_s3) | S3 bucket access log bucket |
-| <a name="output_bucket_session_manager"></a> [bucket\_session\_manager](#output\_bucket\_session\_manager) | SessionManager activity log bucket |
 <!-- END_TF_DOCS -->    

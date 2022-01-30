@@ -6,7 +6,6 @@
  * * ELB
  * * Cloudfront
  * * S3バケット
- * * SessionManager
  */
 
 data "aws_caller_identity" "current" {}
@@ -17,7 +16,6 @@ locals {
   bucket_name_elb = "${replace(var.tf.fullname, "_", "-")}-elb-logs"
   bucket_name_cloudfront = "${replace(var.tf.fullname, "_", "-")}-cloudfront-logs"
   bucket_name_s3 = "${replace(var.tf.fullname, "_", "-")}-s3-logs"
-  bucket_name_session_manager = "${replace(var.tf.fullname, "_", "-")}-session-manager-logs"
 }
 
 resource "aws_s3_bucket" "elb" {
@@ -140,28 +138,5 @@ resource "aws_s3_bucket_public_access_block" "s3" {
   restrict_public_buckets = true
   depends_on = [
     aws_s3_bucket.s3
-  ]
-}
-
-resource "aws_s3_bucket" "session_manager" {
-  bucket = local.bucket_name_session_manager
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-}
-
-resource "aws_s3_bucket_public_access_block" "session_manager" {
-  bucket                  = aws_s3_bucket.session_manager.id
-  block_public_acls       = true
-  ignore_public_acls      = true
-  block_public_policy     = true
-  restrict_public_buckets = true
-  depends_on = [
-    aws_s3_bucket.session_manager
   ]
 }
