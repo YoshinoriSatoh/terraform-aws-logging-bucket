@@ -1,4 +1,13 @@
 <!-- BEGIN_TF_DOCS -->
+# Terraform AWS Logging buckets module
+
+以下リソースのアクセスログを保存するS3バケットを作成します。
+バケットのアクセス権限が異なるため、それぞれバケットを分けています。
+* ELB
+* Cloudfront
+* S3バケット
+* SessionManager
+
 ## Requirements
 
 | Name | Version |
@@ -43,8 +52,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bucket_cloudfront"></a> [bucket\_cloudfront](#output\_bucket\_cloudfront) | n/a |
-| <a name="output_bucket_elb"></a> [bucket\_elb](#output\_bucket\_elb) | n/a |
-| <a name="output_bucket_s3"></a> [bucket\_s3](#output\_bucket\_s3) | n/a |
-| <a name="output_bucket_session_manager"></a> [bucket\_session\_manager](#output\_bucket\_session\_manager) | n/a |
+| <a name="output_bucket_cloudfront"></a> [bucket\_cloudfront](#output\_bucket\_cloudfront) | Cloudfront access log bucket |
+| <a name="output_bucket_elb"></a> [bucket\_elb](#output\_bucket\_elb) | ALB/NLB access log bucket |
+| <a name="output_bucket_s3"></a> [bucket\_s3](#output\_bucket\_s3) | S3 bucket access log bucket |
+| <a name="output_bucket_session_manager"></a> [bucket\_session\_manager](#output\_bucket\_session\_manager) | SessionManager activity log bucket |
 <!-- END_TF_DOCS -->    
