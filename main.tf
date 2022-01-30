@@ -12,11 +12,12 @@
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
+# S3バケット名にはアンダースコアが使用できないため、ハイフンに変換
 locals {
-  bucket_name_elb = "${var.tf.fullname}-elb-logs"
-  bucket_name_cloudfront = "${var.tf.fullname}-cloudfront-logs"
-  bucket_name_s3 = "${var.tf.fullname}-s3-logs"
-  bucket_name_session_manager = "${var.tf.fullname}-session-manager-logs"
+  bucket_name_elb = "${replace(var.tf.fullname, "_", "-")}-elb-logs"
+  bucket_name_cloudfront = "${replace(var.tf.fullname, "_", "-")}-cloudfront-logs"
+  bucket_name_s3 = "${replace(var.tf.fullname, "_", "-")}-s3-logs"
+  bucket_name_session_manager = "${replace(var.tf.fullname, "_", "-")}-session-manager-logs"
 }
 
 resource "aws_s3_bucket" "elb" {
