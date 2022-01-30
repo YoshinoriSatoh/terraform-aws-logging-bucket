@@ -1,3 +1,14 @@
+/**
+ * # Terraform AWS Logging buckets module
+ *
+ * 以下リソースのアクセスログを保存するS3バケットを作成します。
+ * バケットのアクセス権限が異なるため、それぞれバケットを分けています。
+ * * ELB
+ * * Cloudfront
+ * * S3バケット
+ * * SessionManager
+ */
+
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
