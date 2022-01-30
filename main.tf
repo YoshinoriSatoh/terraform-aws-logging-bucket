@@ -14,7 +14,7 @@ data "aws_region" "current" {}
 
 locals {
   bucket_name_elb = "${var.tf.fullname}-elb-logs"
-  bucket_name_cloudflount = "${var.tf.fullname}-cloudfront-logs"
+  bucket_name_cloudfront = "${var.tf.fullname}-cloudfront-logs"
   bucket_name_s3 = "${var.tf.fullname}-s3-logs"
   bucket_name_session_manager = "${var.tf.fullname}-session-manager-logs"
 }
@@ -118,6 +118,9 @@ resource "aws_s3_bucket_public_access_block" "cloudfront" {
 
 resource "aws_s3_bucket" "s3" {
   bucket = local.bucket_name_s3
+  # S3アクセスログの出力には規定ACLが用意されている
+  # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+  acl    = "log-delivery-write"
 
   server_side_encryption_configuration {
     rule {
@@ -137,13 +140,6 @@ resource "aws_s3_bucket_public_access_block" "s3" {
   depends_on = [
     aws_s3_bucket.s3
   ]
-}
-
-resource "aws_s3_bucket_policy" "s3" {
-  bucket = aws_s3_bucket.s3.id
-  # S3アクセスログの出力には規定ACLが用意されている
-  # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
-  acl    = "log-delivery-write"
 }
 
 resource "aws_s3_bucket" "session_manager" {
