@@ -11,16 +11,15 @@
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
-# S3バケット名にはアンダースコアが使用できないため、ハイフンに変換
 locals {
-  bucket_name_elb = "${replace(var.tf.fullname, "_", "-")}-elb-logs"
-  bucket_name_cloudfront = "${replace(var.tf.fullname, "_", "-")}-cloudfront-logs"
-  bucket_name_s3 = "${replace(var.tf.fullname, "_", "-")}-s3-logs"
+  bucket_name_elb = "${var.tf.fullname}-elb-logs"
+  bucket_name_cloudfront = "${var.tf.fullname}-cloudfront-logs"
+  bucket_name_s3 = "${var.tf.fullname}-s3-logs"
 }
 
 resource "aws_s3_bucket" "elb" {
   bucket = local.bucket_name_elb
-
+  force_destroy = var.in_development
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -86,6 +85,7 @@ POLICY
 
 resource "aws_s3_bucket" "cloudfront" {
   bucket = local.bucket_name_cloudfront
+  force_destroy = var.in_development
 
   # CloudfrontのログをS3に出力するためには、以下アカウントからのFULL_CONTROL付与が必要
   # [参照] https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
@@ -117,6 +117,8 @@ resource "aws_s3_bucket_public_access_block" "cloudfront" {
 
 resource "aws_s3_bucket" "s3" {
   bucket = local.bucket_name_s3
+  force_destroy = var.in_development
+
   # S3アクセスログの出力には規定ACLが用意されている
   # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
   acl    = "log-delivery-write"
