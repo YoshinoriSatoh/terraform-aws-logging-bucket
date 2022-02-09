@@ -12,13 +12,13 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  bucket_name_elb = "${var.tf.fullname}-elb-logs"
+  bucket_name_elb        = "${var.tf.fullname}-elb-logs"
   bucket_name_cloudfront = "${var.tf.fullname}-cloudfront-logs"
-  bucket_name_s3 = "${var.tf.fullname}-s3-logs"
+  bucket_name_s3         = "${var.tf.fullname}-s3-logs"
 }
 
 resource "aws_s3_bucket" "elb" {
-  bucket = local.bucket_name_elb
+  bucket        = local.bucket_name_elb
   force_destroy = var.in_development
   server_side_encryption_configuration {
     rule {
@@ -84,7 +84,7 @@ POLICY
 }
 
 resource "aws_s3_bucket" "cloudfront" {
-  bucket = local.bucket_name_cloudfront
+  bucket        = local.bucket_name_cloudfront
   force_destroy = var.in_development
 
   # CloudfrontのログをS3に出力するためには、以下アカウントからのFULL_CONTROL付与が必要
@@ -116,12 +116,12 @@ resource "aws_s3_bucket_public_access_block" "cloudfront" {
 }
 
 resource "aws_s3_bucket" "s3" {
-  bucket = local.bucket_name_s3
+  bucket        = local.bucket_name_s3
   force_destroy = var.in_development
 
   # S3アクセスログの出力には規定ACLが用意されている
   # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
-  acl    = "log-delivery-write"
+  acl = "log-delivery-write"
 
   server_side_encryption_configuration {
     rule {
