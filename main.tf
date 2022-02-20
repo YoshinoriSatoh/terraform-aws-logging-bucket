@@ -141,7 +141,7 @@ resource "aws_s3_bucket" "s3" {
 # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
 resource "aws_s3_bucket_acl" "s3" {
   bucket = aws_s3_bucket.cloudfront.id
-  acl = "log-delivery-write"
+  acl    = "log-delivery-write"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3" {
