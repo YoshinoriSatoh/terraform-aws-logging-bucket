@@ -107,10 +107,10 @@ resource "aws_s3_bucket_acl" "cloudfront" {
       }
       permission = "FULL_CONTROL"
     }
-  }
 
-  owner {
-    id = data.aws_canonical_user_id.current.id
+    owner {
+      id = data.aws_canonical_user_id.current.id
+    }
   }
 }
 
