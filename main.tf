@@ -94,13 +94,14 @@ resource "aws_s3_bucket" "cloudfront" {
 # CloudfrontのログをS3に出力するためには、以下アカウント(固定ID)からのFULL_CONTROL付与が必要
 # [参照] https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
 # [参照] https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/cloudfront_log_delivery_canonical_user_id
+data "aws_cloudfront_log_delivery_canonical_user_id" "default" {}
 resource "aws_s3_bucket_acl" "cloudfront" {
   bucket = aws_s3_bucket.cloudfront.id
 
   access_control_policy {
     grant {
       grantee {
-        id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+        id   = data.aws_cloudfront_log_delivery_canonical_user_id.default.id
         type = "CanonicalUser"
       }
       permission = "FULL_CONTROL"
