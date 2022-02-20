@@ -20,13 +20,6 @@ locals {
 resource "aws_s3_bucket" "elb" {
   bucket        = local.bucket_name_elb
   force_destroy = var.in_development
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "elb" {
@@ -96,13 +89,18 @@ POLICY
 resource "aws_s3_bucket" "cloudfront" {
   bucket        = local.bucket_name_cloudfront
   force_destroy = var.in_development
+}
 
-  # CloudfrontのログをS3に出力するためには、以下アカウントからのFULL_CONTROL付与が必要
-  # [参照] https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
-  grant {
-    id          = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
-    type        = "CanonicalUser"
-    permissions = ["FULL_CONTROL"]
+# CloudfrontのログをS3に出力するためには、以下アカウントからのFULL_CONTROL付与が必要
+# [参照] https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
+resource "aws_s3_bucket_acl" "cloudfront" {
+  bucket = aws_s3_bucket.cloudfront.id
+  access_control_policy {
+    grantee {
+      id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+      type = "CanonicalUser"
+    }
+    permissions = "FULL_CONTROL"
   }
 }
 
@@ -130,9 +128,12 @@ resource "aws_s3_bucket_public_access_block" "cloudfront" {
 resource "aws_s3_bucket" "s3" {
   bucket        = local.bucket_name_s3
   force_destroy = var.in_development
+}
 
-  # S3アクセスログの出力には規定ACLが用意されている
-  # https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+# S3アクセスログの出力には規定ACLが用意されている
+# https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/acl-overview.html#canned-acl
+resource "aws_s3_bucket_acl" "cloudfront" {
+  bucket = aws_s3_bucket.cloudfront.id
   acl = "log-delivery-write"
 }
 
